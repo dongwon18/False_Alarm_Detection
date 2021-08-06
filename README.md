@@ -2,6 +2,10 @@
 - Using open data set, train machine learning models(Random Forest, Support Vector Machine, Logistic Regression) and Deep learning Model(CNN, ANN).  
 
 # Dataset Source
+- Find dataset that contains failure and alarm values with sensor values
+  - To check if the alarm is real or false
+
+
 - [RONTO dataset](https://www.kaggle.com/afrniomelo/pronto-benchmark)
 ## publication
 -  A. Stief, R. Tan, Y. Cao, J. R. Ottewill, N. F. Thornhill, J. Baranowski, A heterogeneous benchmark dataset for data analytics: Multiphase flow facility case study, Journal of Process Control, 79 (2019) 41–55, DOI: https://doi.org/10.1016/j.jprocont.2019.04.009
@@ -36,15 +40,26 @@
 # Operating Environment
 - Google Colaboratory(using TPU, on July.28th.2021)
 
+# Files
+- training_model_htm.ipynb
+  - train Hierarchical Temporal Memory using PRONTO dataset 
+- training_model_pronto.ipynb
+  - training other models using PRONTO dataset
+
 # Result
 - make tsv file
 ## Failure Prediction
 
-|accuracy|CNN|ANN|Random Forest|SVM(linear)|SVM(rbf)|SVM(poly)|Logistic Regression|
+|accuracy|CNN|ANN|Random Forest|SVM(linear)|SVM(rbf)|SVM(poly)|Logistic Regression|HTM|
 |:------:|---:|---:|--------:|---:|---:|---:|---:|
-|train|0.894|0.812|1|0.859|0.686|0.535|0.738|
+|train|0.894|0.812|1|0.859|0.686|0.535|0.738|0.168|
 |val|0.901|0.812|0.999|0.845|0.681|0.538|0.730|
-|test|0.941|0.896|1|0.858|0.683|0.536|0.737|
+|test|0.941|0.896|1|0.858|0.683|0.536|0.737|0.686|
+
+- SDR which is binary encoded data seems too simple to express float type sensor values
+- using one hot encoding was not possible because the dataset becomes too large(about 2.4GB) which is large for Pandas to read.
+- Using average value to encode float sensor values is not that effective
+- If there is any suggestion to improve HTM's score, please let me know.
 
 ## Alarm Prediction
 
@@ -60,3 +75,4 @@
 - Need to modify hyper parameter more to get good results.
 - Among models ensemble model has the best score
   → Need voting ensemble model to combine all machine learning and deep learning models
+- Need sophiscated way to encode float values to SDR for HTM.
